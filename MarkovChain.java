@@ -116,14 +116,17 @@ public class MarkovChain{
       return end1.compareTo(end2);
    }
    
-   public String getSentence(int numWords){
+   public String getSentence(int numWordsIn){
+   
+      int numWords = numWordsIn -1;
       
       String line = "";
       
+      Prefix prefix = new Prefix("\n","\n");
+      Suffix suffix = new Suffix("");
+      
       while(line.trim().length()<1){
-         Prefix prefix = new Prefix("\n","\n");
-         Suffix suffix = new Suffix("");
- 
+        
          for(int i=0; i<numWords; i++){
             String s = getWord(prefix);
             if(s == "\n") s = getWord(prefix);
@@ -135,6 +138,32 @@ public class MarkovChain{
          
          line = line.trim();
       }
+      String[] goodEnd = line.split(" ");
+      String lastWord = goodEnd[goodEnd.length-1];
+      
+      String[] badWordString = {"the", "an", "a", "is"};
+      
+      for(int i = 0; i < badWordString.length; i++){
+         if(lastWord.equals(badWordString[i])){
+            String s = getWord(prefix);
+            if(s == "\n") s = getWord(prefix);
+            suffix.setS(s);
+            prefix.setL(prefix.getR());
+            prefix.setR(suffix.getS());
+            line = line + " " + suffix.getS();  
+            break;       
+         }
+      }
+ /*     
+      while(badWordString.contains(" " + goodEnd[goodEnd.length-1] + " ")){
+         String s = getWord(prefix);
+            if(s == "\n") s = getWord(prefix);
+            suffix.setS(s);
+            prefix.setL(prefix.getR());
+            prefix.setR(suffix.getS());
+            line = line + " " + suffix.getS();
+      }
+  */    
       
       return line;
    }
