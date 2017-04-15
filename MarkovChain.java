@@ -59,7 +59,7 @@ public class MarkovChain{
    
    public String[] getRhyming(int numLines, int numWords){
       
-      int max = 200000;
+      int max = (numLines*50);
       
       ArrayList<String> preRap = new ArrayList<String>();
       
@@ -77,9 +77,14 @@ public class MarkovChain{
          for(int i=0; i<preRap.size()-1; i++){
             int x = compEnd(preRap.get(i),preRap.get(i+1));
             if(x == 0){
-               rap[filledLines] = preRap.remove(i);
-               rap[filledLines+1] = preRap.remove(i);
-               filledLines = filledLines + 2;
+               if(preRap.get(i).trim().length() == preRap.get(i+1).trim().length()){
+                  preRap.remove(i+1);
+               }
+               else{
+                  rap[filledLines] = preRap.remove(i);
+                  rap[filledLines+1] = preRap.remove(i);
+                  filledLines = filledLines + 2;
+               }
             }
             else if(x < 0){
                break;
