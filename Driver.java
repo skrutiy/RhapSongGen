@@ -6,10 +6,6 @@ public class Driver{
      
       
 	public static void main(String[] args){
-//       markov.addWordsToChain("hello this is my name song");
-//       
-//       int x = 0;
-//       if(x == 0) return;
       
 		Scanner in = new Scanner(System.in);
       
@@ -20,10 +16,21 @@ public class Driver{
 		MarkovChain chain = read(new File("Files/DAMN.txt"), words);
             
       System.out.println(name + "\n By, Timmy Mac");
-               
+       
+      /*       
       for(int i=0; i<20; i++){
          System.out.println(chain.getSentence(10));
       }
+      */
+      
+      
+      String[] finalArr;
+      finalArr = chain.getRhyming(15,10);
+      
+      for(int i=0; i<finalArr.length; i++){
+         System.out.println(finalArr[i]);
+      }
+      
 	}
 	
 	public static MarkovChain read(File file, String[] words){

@@ -10,7 +10,7 @@ public class MarkovChain{
 
    public void addWordsToChain(String str){
       
-      String[] words = str.split(" ");
+      String[] words = str.trim().split(" ");
       
       if(words.length <2) return;
       
@@ -21,8 +21,8 @@ public class MarkovChain{
          addToChain(new Prefix(words[i],words[i+1]), new Suffix(words[i+2]));
       }
       
-      addToChain(new Prefix(words[words.length-2],words[words.length-1]), new Suffix("\n"));
-      addToChain(new Prefix(words[words.length-1],"\n"), new Suffix("\n"));
+     // addToChain(new Prefix(words[words.length-2],words[words.length-1]), new Suffix("\n"));
+     // addToChain(new Prefix(words[words.length-1],"\n"), new Suffix("\n"));
       
    }
    
@@ -40,18 +40,74 @@ public class MarkovChain{
       } 
    }
    
+   public String[] getRhyming(int numLines, int numWords){
+      
+      int max = 200000;
+      
+      ArrayList<String> preRap = new ArrayList<String>();
+      
+      int filledLines = 0;
+      String[] rap = new String[numLines];
+      
+      
+      while(filledLines < numLines-1 && preRap.size() < max){
+      
+         String line = getSentence(numWords);
+         //generate new line
+         
+         
+         preRap.add(0,line);
+         for(int i=0; i<preRap.size()-1; i++){
+            int x = compEnd(preRap.get(i),preRap.get(i+1));
+            if(x == 0){
+               rap[filledLines] = preRap.remove(i);
+               rap[filledLines+1] = preRap.remove(i);
+               filledLines = filledLines + 2;
+            }
+            else if(x < 0){
+               break;
+            }
+            else{
+               String temp = preRap.get(i);
+               preRap.set(i,preRap.get(i+1));
+               preRap.set(i+1,temp);
+            }
+         }
+         
+         //scan through array until match or right spot
+         //see if it rhymes with one after
+         //add to rap and remove if does
+         //else repeat
+      }
+      
+      return rap;
+      
+   }
+   
+   public int compEnd(String str1, String str2){
+      String end1 = str1.substring(str1.length()-2,str1.length());
+      String end2 = str2.substring(str2.length()-2,str2.length());
+      return end1.compareTo(end2);
+   }
+   
    public String getSentence(int numWords){
       
       String line = "";
-   
-      Prefix prefix = new Prefix("\n","\n");
-      Suffix suffix = new Suffix("");
       
-      for(int i=0; i<numWords; i++){
-         suffix.setS(getWord(prefix));
-         prefix.setL(prefix.getR());
-         prefix.setR(suffix.getS());
-         line = line + " " + suffix.getS();
+      while(line.trim().length()<1){
+         Prefix prefix = new Prefix("\n","\n");
+         Suffix suffix = new Suffix("");
+ 
+         for(int i=0; i<numWords; i++){
+            String s = getWord(prefix);
+            if(s == "\n") s = getWord(prefix);
+            suffix.setS(s);
+            prefix.setL(prefix.getR());
+            prefix.setR(suffix.getS());
+            line = line + " " + suffix.getS();
+         }
+         
+         line = line.trim();
       }
       
       return line;
@@ -60,7 +116,7 @@ public class MarkovChain{
    public String getWord(Prefix key){
       ArrayList<Suffix> retArr = chain.get(key);
       if(retArr == null){
-         return "\n";
+         return "";
       }
       else{
          Random rand = new Random();
