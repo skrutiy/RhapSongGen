@@ -3,6 +3,7 @@ import java.util.*;
 public class MarkovChain{
 
    HashMap<Prefix, ArrayList<Suffix>> chain;
+   char[] replaceThese = {'(', ')'};
    
    public MarkovChain(){
       chain = new HashMap<Prefix, ArrayList<Suffix>>();
@@ -26,6 +27,7 @@ public class MarkovChain{
       //String str = input;
       
       String[] words = str.trim().split(" ");
+
       
       if(words.length <2) return;
       

@@ -1,3 +1,4 @@
+
 import java.util.*;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -52,6 +53,7 @@ public class Driver{
          song = (song += (finalArr[i] + "\n"));
       }
       
+
       JFrame frame = new JFrame();
       frame.setTitle("Your Song: " + songName);
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
