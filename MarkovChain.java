@@ -3,13 +3,28 @@ import java.util.*;
 public class MarkovChain{
 
    HashMap<Prefix, ArrayList<Suffix>> chain;
+   char[] replaceThese = {'(', ')'};
    
    public MarkovChain(){
       chain = new HashMap<Prefix, ArrayList<Suffix>>();
    }
 
-   public void addWordsToChain(String str){
+   public void addWordsToChain(String input){
       
+	  char[] temp = input.toCharArray();
+	  for(int i = 0; i < temp.length; i++){
+		  if(temp[i] == '(' || temp[i] == ')'){
+			  temp[i] = '#';
+		  }
+	  }
+	  String str = "";
+	  for(int i = 0; i < temp.length; i++){
+		  if(temp[i] != '#'){
+			  str+=temp[i];
+		  }
+	  }
+	  
+	  
       String[] words = str.split(" ");
       
       if(words.length <2) return;

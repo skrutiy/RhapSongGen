@@ -2,6 +2,7 @@
 import java.util.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.*;
 
 public class Driver{
 
@@ -16,10 +17,10 @@ public class Driver{
 		String[] words = name.split(" ");
 		
 		
-		MarkovChain chain = read(new File("src/hamp/DAMN.txt"), words);
+		MarkovChain chain = read(new File("Files/AllSongs.txt"), words);
 
 		for(int i=0; i<20; i++){
-			System.out.println(chain.getSentence(10));
+			System.out.println(chain.getSentence(20));
 		}
 	
 	}
@@ -29,14 +30,14 @@ public class Driver{
 		MarkovChain markov = new MarkovChain();
 
 		try{
-			Scanner scan = new Scanner(file);
+			Scanner scan = new Scanner(new BufferedReader(new FileReader(file)));
 			String curr = "";
 			String prev = "";
 			while(scan.hasNextLine()){
 				cntr++;
 				prev = curr;
 				curr = scan.nextLine();
-				if(cntr % 5 == 0){
+				if(cntr % 100 == 0){
 					markov.addWordsToChain(curr);
 				}
 				for(int i = 0; i < words.length; i++){
@@ -50,6 +51,8 @@ public class Driver{
 					}					
 				}
 			}
+			System.out.println(cntr);
+			System.out.println(scan.hasNextLine());
 			return markov;
 		}
 		catch(FileNotFoundException e){
