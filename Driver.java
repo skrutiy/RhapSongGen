@@ -35,14 +35,25 @@ public class Driver{
 		
 		
 		MarkovChain chain = read(new File("Files/AllSongs.txt"), words);
-
+      
+      /*
       String song = "";
       
 		for(int i=0; i<20; i++){
 			song += chain.getSentence(20) + "\n";
          //System.out.println(chain.getSentence(20));
 		}
+      */
       
+      String[] finalArr;
+      finalArr = chain.getRhyming(15,10);
+      
+      String song = "";
+      for(int i=0; i<finalArr.length; i++){
+         song = (song += (finalArr[i] + "\n"));
+      }
+      
+
       JFrame frame = new JFrame();
       frame.setTitle("Your Song: " + songName);
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
