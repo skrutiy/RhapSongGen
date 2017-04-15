@@ -8,7 +8,22 @@ public class MarkovChain{
       chain = new HashMap<Prefix, ArrayList<Suffix>>();
    }
 
-   public void addWordsToChain(String str){
+   public void addWordsToChain(String input){
+      
+      char[] temp = input.toCharArray();
+	   for(int i = 0; i < temp.length; i++){
+		  if(temp[i] == '(' || temp[i] == ')' || temp[i] == '\"'){
+			  temp[i] = '#';
+		  }
+	   }
+	   String str = "";
+	   for(int i = 0; i < temp.length; i++){
+	 	  if(temp[i] != '#'){
+			   str+=temp[i];
+		   }
+	   }
+      
+      //String str = input;
       
       String[] words = str.trim().split(" ");
       
@@ -78,6 +93,10 @@ public class MarkovChain{
          //see if it rhymes with one after
          //add to rap and remove if does
          //else repeat
+      }
+      
+      if(rap[rap.length-1] == null){
+         rap[rap.length-1] = getSentence(numWords);
       }
       
       return rap;
