@@ -12,6 +12,8 @@ public class MarkovChain{
       
       String[] words = str.split(" ");
       
+      if(words.length <2) return;
+      
       addToChain(new Prefix("\n","\n"), new Suffix(words[0]));
       addToChain(new Prefix("\n",words[0]), new Suffix(words[1]));
       
@@ -38,11 +40,33 @@ public class MarkovChain{
       } 
    }
    
+   public String getSentence(int numWords){
+      
+      String line = "";
+   
+      Prefix prefix = new Prefix("\n","\n");
+      Suffix suffix = new Suffix("");
+      
+      for(int i=0; i<numWords; i++){
+         suffix.setS(getWord(prefix));
+         prefix.setL(prefix.getR());
+         prefix.setR(suffix.getS());
+         line = line + " " + suffix.getS();
+      }
+      
+      return line;
+   }
+   
    public String getWord(Prefix key){
       ArrayList<Suffix> retArr = chain.get(key);
-      Random rand = new Random();
-      int randomInt = rand.nextInt(retArr.size());
-      return retArr.get(randomInt).getS();
+      if(retArr == null){
+         return "\n";
+      }
+      else{
+         Random rand = new Random();
+         int randomInt = rand.nextInt(retArr.size());
+         return retArr.get(randomInt).getS();
+      }
    }
    
 }

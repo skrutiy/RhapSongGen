@@ -52,17 +52,15 @@ public class Prefix{
    
    @Override
    public int hashCode(){
-      System.out.println("In hashcode");
-      String str = (this.preL + "" + this.preR);
+      String str = (this.preL.toLowerCase() + "" + this.preR.toLowerCase());
       return str.hashCode();
    }
    
    @Override
    public boolean equals(Object o){
-      System.out.println("In equals");
       if (o instanceof Prefix) {
          Prefix pre = (Prefix) o;
-         return(this.preL.equals(pre.getL()) && this.preR.equals(pre.getR()));
+         return(this.preL.toLowerCase().equals(pre.getL().toLowerCase()) && this.preR.toLowerCase().equals(pre.getR().toLowerCase()));
       }
       else{
          return false;
