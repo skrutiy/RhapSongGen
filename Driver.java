@@ -3,6 +3,14 @@ import java.util.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import java.awt.BorderLayout;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import java.awt.Dimension;
 
 public class Driver{
 
@@ -11,17 +19,48 @@ public class Driver{
 	
 		Scanner in = new Scanner(System.in);
 	
-		System.out.println("Enter Song Title: ");
+		//System.out.println("Enter Song Title: ");
+      String name = JOptionPane.showInputDialog(null,
+                                                "Enter Song Title:",
+                                                "Rap Song Generator",
+                                                JOptionPane.INFORMATION_MESSAGE);
+      if (name == null) {
+         System.exit(0);
+      }
 		
-		String name = in.nextLine();
+		//String name = in.nextLine();
+      String songName = name;
+      name = name.toLowerCase();
 		String[] words = name.split(" ");
 		
 		
 		MarkovChain chain = read(new File("Files/AllSongs.txt"), words);
 
+      String song = "";
+      
 		for(int i=0; i<20; i++){
-			System.out.println(chain.getSentence(20));
+			song += chain.getSentence(20) + "\n";
+         //System.out.println(chain.getSentence(20));
 		}
+      
+      JFrame frame = new JFrame();
+      frame.setTitle("Your Song: " + songName);
+      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      JTextArea textArea = new JTextArea();
+      textArea.setText(song);
+      textArea.setRows(25);
+      textArea.setColumns(45);
+      textArea.setEditable(false);
+      JScrollPane scrollPane = new JScrollPane(textArea);
+      frame.add(scrollPane);
+      frame.pack();
+      
+      JOptionPane.showMessageDialog(frame,
+                                    scrollPane,
+                                    "Your song: " + songName,
+                                    JOptionPane.INFORMATION_MESSAGE);
+      System.exit(0);
+      
 	
 	}
 
@@ -51,8 +90,6 @@ public class Driver{
 					}					
 				}
 			}
-			System.out.println(cntr);
-			System.out.println(scan.hasNextLine());
 			return markov;
 		}
 		catch(FileNotFoundException e){
