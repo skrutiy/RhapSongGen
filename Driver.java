@@ -24,14 +24,6 @@ public class Driver{
       for(int i=0; i<20; i++){
          System.out.println(chain.getSentence(10));
       }
-//       String word1 = "\n";
-//       String suf = "";
-//       
-//       while(suf != "\n"){
-//          Prefix pre = new Prefix(word1,word2);
-//          suf = chain.getWord
-//       }
-      
 	}
 	
 	public static MarkovChain read(File file, String[] words){
