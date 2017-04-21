@@ -77,16 +77,14 @@ public class MarkovChain{
          for(int i=0; i<preRap.size()-1; i++){
             int x = compEnd(preRap.get(i),preRap.get(i+1));
             if(x == 0){
-               if(preRap.get(i).trim().length() == preRap.get(i+1).trim().length()){
-                  preRap.remove(i+1);
-               }
-               else{
-                  rap[filledLines] = preRap.remove(i);
-                  rap[filledLines+1] = preRap.remove(i);
-                  filledLines = filledLines + 2;
-               }
+               rap[filledLines] = preRap.remove(i);
+               rap[filledLines+1] = preRap.remove(i);
+               filledLines = filledLines + 2;
             }
-            else if(x < 0){
+            else if(x == -2){
+               preRap.remove(i);
+            }
+            else if(x == -1){
                break;
             }
             else{
@@ -111,10 +109,27 @@ public class MarkovChain{
    }
    
    public int compEnd(String str1, String str2){
-      String end1 = str1.substring(str1.length()-2,str1.length());
-      String end2 = str2.substring(str2.length()-2,str2.length());
-      return end1.compareTo(end2);
-   }
+      
+      //if(str1.trim().equals(str2.trim())) return -2;
+      
+      String[] arr1 = str1.split(" ");
+      String[] arr2 = str2.split(" ");
+      
+      if(arr1[arr1.length-1].equals(arr2[arr2.length-1])) return -2;
+      
+      int compLetters = 3;
+      
+      if(str1.length() < 3) compLetters = str1.length();
+      if(str2.length() < 3) compLetters = str2.length();
+   
+      String end1 = str1.substring(str1.length()-compLetters,str1.length());
+      String end2 = str2.substring(str2.length()-compLetters,str2.length());
+      
+      if(end1.compareTo(end2) < 0) return -1;
+      else if(end1.compareTo(end2) > 0) return 1;
+      else return 0;
+      
+     }
    
    public String getSentence(int numWordsIn){
    

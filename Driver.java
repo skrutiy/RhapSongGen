@@ -31,6 +31,7 @@ public class Driver{
 		//String name = in.nextLine();
       String songName = name;
       name = name.toLowerCase();
+      //name = name + "this";
 		String[] words = name.split(" ");
 		
 		
