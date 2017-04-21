@@ -176,7 +176,15 @@ public class MarkovChain{
       else{
          Random rand = new Random();
          int randomInt = rand.nextInt(retArr.size());
-         return retArr.get(randomInt).getS();
+        
+        //Really Not Family Friendly 
+        // return retArr.get(randomInt).getS();
+        
+        //Still Not Family Friendly but a but better
+          String out = retArr.get(randomInt).getS();
+          if(out.contains("niggas")) return "brothers";
+          if(out.contains("nigg")) return "brother";
+          return out;
       }
    }
    
